@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - upload_data:/app/uploads
+      - processed_data:/app/processed
+    environment:
+      - DATABASE_URL=sqlite:///./shopmind.db
+      - SECRET_KEY=shopmind-ai-dev-secret-key-2024
+    restart: unless-stopped
+
+  # Optional: Uncomment for full stack with Redis/Postgres
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  # postgres:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_USER: shopmind
+  #     POSTGRES_PASSWORD: shopmind
+  #     POSTGRES_DB: shopmind
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+volumes:
+  upload_data:
+  processed_data:
